@@ -1,8 +1,10 @@
 import { createContext, useContext, useLayoutEffect, useState } from "react";
 import { postLogin, postVerify } from "../../api/user/login";
+import RoleProvider, { RoleType } from "../RoleProvider/RoleProvider";
 
 interface AuthProviderProps {
   children: React.ReactNode;
+  protectRole?: Array<RoleType>;
 }
 export interface LoginInterface {
   email: string;
@@ -16,7 +18,7 @@ interface AuthContextInterface {
 
 const AuthContext = createContext<AuthContextInterface | null>(null);
 
-const AuthProvider = ({ children }: AuthProviderProps) => {
+const AuthProvider = ({ children, protectRole }: AuthProviderProps) => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
   const handleOnSubmitLogin = async ({ email, password }: LoginInterface) => {
@@ -55,7 +57,11 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     handleOnSubmitLogin,
     handleOnSubmitLogout,
   };
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      <RoleProvider protectRole={protectRole}>{children}</RoleProvider>
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuthContext = (): AuthContextInterface => {

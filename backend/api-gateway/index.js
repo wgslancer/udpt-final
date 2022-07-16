@@ -15,6 +15,7 @@ app.use(
 
 app.use("/login", require("./router/userRouter/index"));
 app.use("/signup", require("./router/userRouter/signup"));
+app.use("/role", require("./router/userRouter/role"));
 app.use("/items", require("./router/itemsRouter/index"));
 app.use("/orders", require("./router/ordersRouter/index"));
 

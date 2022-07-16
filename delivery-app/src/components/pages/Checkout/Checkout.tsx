@@ -24,9 +24,9 @@ const Checkout = () => {
         phone: data["checkout-phone"],
         totalPrice: calTotalPrice,
       });
-      console.log(result);
 
       if (result.status === 200) {
+        localStorage.setItem("cart", JSON.stringify([]));
         navigate("/");
       }
     } catch (error) {

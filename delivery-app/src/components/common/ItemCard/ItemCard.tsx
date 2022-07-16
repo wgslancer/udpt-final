@@ -3,9 +3,18 @@ export interface ItemCardProps {
   amount: number;
   price: string;
   onClickAddToCart: () => void;
+  owner?: boolean;
+  onClickDelete?: () => void;
 }
 
-const ItemCard = ({ amount, name, price, onClickAddToCart }: ItemCardProps) => {
+const ItemCard = ({
+  amount,
+  name,
+  price,
+  onClickAddToCart,
+  owner,
+  onClickDelete,
+}: ItemCardProps) => {
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
       <figure>
@@ -22,9 +31,15 @@ const ItemCard = ({ amount, name, price, onClickAddToCart }: ItemCardProps) => {
           {price}$
         </p>
         <div className="card-actions justify-end">
-          <button className="btn btn-primary" onClick={onClickAddToCart}>
-            Add to cart
-          </button>
+          {owner ? (
+            <button className="btn btn-error" onClick={onClickDelete}>
+              Delete
+            </button>
+          ) : (
+            <button className="btn btn-primary" onClick={onClickAddToCart}>
+              Add to cart
+            </button>
+          )}
         </div>
       </div>
     </div>

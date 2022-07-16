@@ -43,4 +43,45 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.delete("/:id", verifyToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await axios.delete(`http://localhost:3001/items/${id}`);
+
+    return res.json({
+      status: 200,
+      message: "Done",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({
+      status: 404,
+      message: error,
+    });
+  }
+});
+
+router.post("/", verifyToken, async (req, res) => {
+  try {
+    const { name, price, amount } = req.body;
+    const { id } = req.decodedData;
+    await axios.post("http://localhost:3001/items", {
+      name,
+      price,
+      amount,
+      ownerId: id,
+    });
+
+    return res.json({
+      status: 200,
+      message: "Done",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      status: 404,
+      message: error,
+    });
+  }
+});
 module.exports = router;

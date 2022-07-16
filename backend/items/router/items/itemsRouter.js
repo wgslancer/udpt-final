@@ -3,6 +3,8 @@ const {
   getAllItemsByOwnerId,
   getAllItems,
   getItemsByIds,
+  deleteItemById,
+  createItem,
 } = require("../../services/items");
 
 const router = express.Router();
@@ -49,6 +51,43 @@ router.get("/ids", async (req, res) => {
       data: items,
     });
   } catch (error) {
+    return res.status(404).json({
+      status: 404,
+      message: error,
+    });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await deleteItemById(id);
+
+    return res.json({
+      status: 200,
+      message: "Done",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({
+      status: 404,
+      message: error,
+    });
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    const { name, price, amount, ownerId } = req.body;
+
+    await createItem({ name, price, amount }, ownerId);
+
+    return res.json({
+      status: 200,
+      message: "Done",
+    });
+  } catch (error) {
+    console.log(error);
     return res.status(404).json({
       status: 404,
       message: error,

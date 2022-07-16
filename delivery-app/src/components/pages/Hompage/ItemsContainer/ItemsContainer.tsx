@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { getAllItems } from "../../../../api/items/items";
 import ItemCard from "../../../common/ItemCard";
 
-const ItemsContainer = () => {
+interface ItemsContainerProps {
+  owner?: boolean;
+}
+
+const ItemsContainer = ({ owner }: ItemsContainerProps) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -58,6 +62,7 @@ const ItemsContainer = () => {
             amount={amount}
             name={name}
             price={price}
+            owner={owner}
           />
         );
       })}

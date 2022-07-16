@@ -21,3 +21,7 @@ code {
     @apply flex justify-center items-center;
   }
 }
+
+.table th:first-child {
+  z-index: 0;
+}
